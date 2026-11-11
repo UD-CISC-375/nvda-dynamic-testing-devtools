@@ -1,0 +1,4 @@
+# Personal settings for compose.yaml (see "Keep settings" in docs/docker-compose-guide.md)
+.env
+
+.DS_Store
