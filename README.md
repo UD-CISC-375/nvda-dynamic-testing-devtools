@@ -14,9 +14,11 @@ Anything that deals with both repos lives here, and anything only one repo needs
 
 ## Quick start
 
-With Docker running and the team repos cloned next to this one (on `devops-integrate-docker/master` for now; see the guide's Current Status), run this from this folder:
+With Docker running, clone the team repos into `.clone/` inside this folder (Git ignores it), on `devops-integrate-docker/master` for now (see the guide's Current Status), then start everything from this folder:
 
 ```bash
+git clone -b devops-integrate-docker/master https://github.com/UD-CISC-375/nvda-dynamic-testing-framework.git .clone/nvda-dynamic-testing-framework
+git clone -b devops-integrate-docker/master https://github.com/UD-CISC-375/nvda-dynamic-testing-webpage.git .clone/nvda-dynamic-testing-webpage
 docker compose up
 ```
 

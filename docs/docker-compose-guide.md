@@ -25,14 +25,23 @@ The files for this setup are split across THREE repositories. Anything that deal
 2. **nvda-dynamic-testing-framework:** Its own `Dockerfile`, unique to this repository, which builds the tests container (plus a small `.dockerignore` listing files Docker should skip). The Dockerfile also writes the small helper files the container needs (a wrapper config that points the tests at the site to test, and the script that runs the tests and serves the report), each under a comment explaining why it exists.
 3. **nvda-dynamic-testing-webpage:** Its own `Dockerfile`, unique to this repository, which builds the webpage container and also writes nginx's settings (plus a small `.dockerignore`).
 
-For the best experience, clone all three repositories next to each other in one folder, keeping their default folder names, and run `docker compose up` from the devtools folder:
+To use your local copies of the team repositories, clone them into a folder named `.clone` inside the devtools repository, keeping their default folder names, and run `docker compose up` from the devtools folder. Git ignores `.clone`, so the team repositories can never be committed to devtools by accident:
 
 ```
-any-folder/
-  nvda-dynamic-testing-devtools/     compose.yaml and these guides (run commands here)
-  nvda-dynamic-testing-framework/    its own Dockerfile, which builds the tests container
-  nvda-dynamic-testing-webpage/      its own Dockerfile, which builds the webpage container
+nvda-dynamic-testing-devtools/        compose.yaml and these guides (run commands here)
+  .clone/                             ignored by Git
+    nvda-dynamic-testing-framework/   its own Dockerfile, builds the tests container
+    nvda-dynamic-testing-webpage/     its own Dockerfile, builds the webpage container
 ```
+
+From the devtools folder, these commands clone both:
+
+```bash
+git clone https://github.com/UD-CISC-375/nvda-dynamic-testing-framework.git .clone/nvda-dynamic-testing-framework
+git clone https://github.com/UD-CISC-375/nvda-dynamic-testing-webpage.git .clone/nvda-dynamic-testing-webpage
+```
+
+Folders whose names start with a dot are hidden by default in Finder and in `ls` (use `ls -a` to see them), but editors such as VS Code show them.
 
 A team repository only has to be cloned if you want to use your local copy of it; otherwise it can come from GitHub (see Sources).
 
@@ -42,7 +51,7 @@ Nothing on the private network can be reached from outside except the two publis
 
 Each container is built from a source chosen by an environment variable: `FW` for the framework and `WS` for the webpage. Each variable has exactly THREE states:
 
-1. **Not set:** Builds from your local copy of that repository, including uncommitted changes. Local copies must be cloned next to the devtools repository, with their default folder names.
+1. **Not set:** Builds from your local copy of that repository, including uncommitted changes. Local copies must be in the devtools repository's `.clone` folder, with their default folder names.
 2. **Set but empty (`FW=`):** Builds from the repository's default branch on GitHub (see Current Status).
 3. **Set to a name (`FW=<name>`):** Builds from that branch on GitHub. The name can also be a pull request as it would look once merged (`refs/pull/<number>/merge`) or a full commit hash.
 
@@ -56,7 +65,7 @@ Some examples, each run from the devtools repository's folder:
 4. **`FW=refs/pull/151/merge WS= docker compose up`:** Builds the framework as pull request #151 would look once merged, and the webpage from its default branch. Use this to check someone's pull request without cloning anything.
 5. **`FW=devops-integrate-docker/master WS=devops-integrate-docker/master docker compose up`:** Builds both from the `devops-integrate-docker/master` branch on GitHub, with nothing cloned but devtools. This one works today, before the Dockerfiles reach `main`.
 
-For example, say a member of Team Y changes the accordion page and wants to check it before it goes live. They clone the webpage repository next to the devtools repository and run `FW= docker compose up` from the devtools folder. Docker builds the site from their local copy and the framework from its default branch on GitHub, runs every test against their version of the site, and the report at `http://localhost:9323` shows whether anything broke, before anything is pushed.
+For example, say a member of Team Y changes the accordion page and wants to check it before it goes live. They clone the webpage repository into the devtools repository's `.clone` folder and run `FW= docker compose up` from the devtools folder. Docker builds the site from their local copy and the framework from its default branch on GitHub, runs every test against their version of the site, and the report at `http://localhost:9323` shows whether anything broke, before anything is pushed.
 
 ## Usage
 
@@ -75,6 +84,6 @@ The available settings are:
 
 If something goes wrong, three error messages have simple causes:
 
-1. **`additional privileges requested`:** A repository you're using locally isn't cloned next to the devtools repository, or its folder has a different name.
+1. **`unable to prepare context: path ".../.clone/..." not found`:** A repository you're using locally isn't in the `.clone` folder, or its folder has a different name.
 2. **`open Dockerfile: no such file`:** That branch doesn't include the Dockerfile yet.
 3. **`repository does not contain ref`:** The branch name is misspelled or doesn't exist.

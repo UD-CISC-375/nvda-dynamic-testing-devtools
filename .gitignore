@@ -1,4 +1,7 @@
 # Personal settings for compose.yaml (see "Keep settings" in docs/docker-compose-guide.md)
 .env
 
+# Local copies of the team repos, which compose.yaml builds from. Never committed.
+/.clone/
+
 .DS_Store

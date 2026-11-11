@@ -1,14 +1,15 @@
 # Runs the framework's Playwright tests against the webpage, each in its own
 # container. Run it from this folder (the devtools repo).
 #
-#   docker compose up                   both repos from your local copies
+#   docker compose up                   both repos from your local copies in .clone/
 #   FW=<branch> docker compose up       framework from that branch on GitHub
 #   FW= docker compose up               framework from its default branch
 #   WS works the same way for the webpage, and the two can be combined.
 #
-# Local copies must sit next to this repo, with their default folder names:
-#   nvda-dynamic-testing-framework/  and  nvda-dynamic-testing-webpage/
-# If the build says "additional privileges requested", one of them is missing.
+# Local copies go in .clone/ inside this folder (Git ignores it), with their
+# default folder names:
+#   .clone/nvda-dynamic-testing-framework/  and  .clone/nvda-dynamic-testing-webpage/
+# If the build says a path under .clone/ was "not found", that copy is missing.
 # Each repo's Dockerfile and .dockerignore live in that repo.
 #
 # Test report: http://localhost:9323    Tested site: http://localhost:8080
@@ -20,8 +21,8 @@ services:
   webpage:
     pull_policy: build                     # rebuild on every start, to pick up changes
     build:
-      # WS unset: local folder. WS empty: GitHub default branch. WS=<branch>: that branch.
-      context: ${WS+https://github.com/UD-CISC-375/nvda-dynamic-testing-webpage.git}${WS:+#}${WS-../nvda-dynamic-testing-webpage}
+      # WS unset: local copy in .clone/. WS empty: GitHub default branch. WS=<branch>: that branch.
+      context: ${WS+https://github.com/UD-CISC-375/nvda-dynamic-testing-webpage.git}${WS:+#}${WS-./.clone/nvda-dynamic-testing-webpage}
     ports:
       - "${WEBPAGE_PORT:-8080}:80"         # optional: view the tested site
     healthcheck:                           # "ready" once the site answers
@@ -33,8 +34,8 @@ services:
   tests:
     pull_policy: build
     build:
-      # FW unset: local folder. FW empty: GitHub default branch. FW=<branch>: that branch.
-      context: ${FW+https://github.com/UD-CISC-375/nvda-dynamic-testing-framework.git}${FW:+#}${FW-../nvda-dynamic-testing-framework}
+      # FW unset: local copy in .clone/. FW empty: GitHub default branch. FW=<branch>: that branch.
+      context: ${FW+https://github.com/UD-CISC-375/nvda-dynamic-testing-framework.git}${FW:+#}${FW-./.clone/nvda-dynamic-testing-framework}
     environment:
       # The site to test. Without it, the framework tests the live GitHub Pages site.
       BASE_URL: ${BASE_URL:-http://webpage/nvda-dynamic-testing-webpage/}
