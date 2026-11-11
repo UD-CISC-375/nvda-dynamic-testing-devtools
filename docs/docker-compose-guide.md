@@ -22,8 +22,19 @@ There are exactly TWO containers in this setup:
 The files for this setup are split across THREE repositories. Anything that deals with both team repositories lives in the devtools repository, and anything only one repository needs stays in that repository:
 
 1. **nvda-dynamic-testing-devtools:** `compose.yaml`, which defines both containers, plus these guides.
-2. **nvda-dynamic-testing-framework:** A `Dockerfile` for the tests container and a `.dockerignore`, which lists files Docker should skip, such as installed packages. The Dockerfile also writes the small helper files the container needs (a wrapper config that points the tests at the site to test, and the script that runs the tests and serves the report), each under a comment explaining why it exists.
-3. **nvda-dynamic-testing-webpage:** A `Dockerfile` for the webpage container, which also writes nginx's settings, and a `.dockerignore`.
+2. **nvda-dynamic-testing-framework:** Its own `Dockerfile`, unique to this repository, which builds the tests container (plus a small `.dockerignore` listing files Docker should skip). The Dockerfile also writes the small helper files the container needs (a wrapper config that points the tests at the site to test, and the script that runs the tests and serves the report), each under a comment explaining why it exists.
+3. **nvda-dynamic-testing-webpage:** Its own `Dockerfile`, unique to this repository, which builds the webpage container and also writes nginx's settings (plus a small `.dockerignore`).
+
+For the best experience, clone all three repositories next to each other in one folder, keeping their default folder names, and run `docker compose up` from the devtools folder:
+
+```
+any-folder/
+  nvda-dynamic-testing-devtools/     compose.yaml and these guides (run commands here)
+  nvda-dynamic-testing-framework/    its own Dockerfile, which builds the tests container
+  nvda-dynamic-testing-webpage/      its own Dockerfile, which builds the webpage container
+```
+
+A team repository only has to be cloned if you want to use your local copy of it; otherwise it can come from GitHub (see Sources).
 
 Nothing on the private network can be reached from outside except the two published ports: 9323 for the report and 8080 for the tested site. Once the Proxmox VM's networking is set up, anyone who can reach the VM should be able to open `http://<VM address>:9323`.
 

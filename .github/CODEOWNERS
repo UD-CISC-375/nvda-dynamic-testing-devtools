@@ -1,0 +1,11 @@
+# Who can approve changes to this repo. With "Require review from Code Owners"
+# turned on for main, a pull request needs an approval from an owner of every
+# file it changes. When a line lists two teams, either one can approve.
+# For each file, the LAST matching line below wins.
+
+# Everything: DevOps or a team manager
+*                     @UD-CISC-375/devops @UD-CISC-375/team-managers
+
+# Files that affect everyone's setup: DevOps only. Add more here as needed.
+/compose.yaml         @UD-CISC-375/devops
+/.github/CODEOWNERS   @UD-CISC-375/devops
