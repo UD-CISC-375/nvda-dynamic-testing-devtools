@@ -2,6 +2,8 @@
 
 Fall 2026 DevOps Team
 
+\* **Errata:** We are still using `master` in this convention for now, because the GitHub rulesets protect branches named `*/master`. We will swap to `main` once the branching rulesets are updated. (The framework, webpage, and devtools repos already name their default branch `main`.)
+
 ## Background
 
 In order to coordinate effective collaboration between teams for NVDA development, DevOps team has established a convention for how Git branches should be structured and named. This convention is enforced by GitHub rulesets to ensure that development proceeds smoothly and efficiently. This guide provides an overview of this convention, details about convention enforcement, and a list of best practices to ensure that you can combine your work with your peers' without issue.
@@ -27,7 +29,3 @@ Each of the four branch categories specified above has a corresponding naming co
 4. **`<class-goal-name>/<L>_<team-goal-name>/<anything>`:** Names for Individually-Scoped Goals should include the name of the Class-Scoped Goal it is branching off of, followed by the lowercase letter of the team whose goal the branch belongs to and a trailing underscore, followed by an all-lowercase, hyphenated description of the goal being worked towards by team `<L>`, followed by any name the involved developers would like. The `<anything>` section can include any text that the developers would like.
 
 For example, say the class wants to add DOM parsing as a feature. First, a branch called `parse-dom-tree/master` would be split off of the Master branch. Team Y would then make a branch called `parse-dom-tree/y_integrate-dom-api/master`, and a member of Team Y could then make a branch called `parse-dom-tree/y_integrate-dom-api/testingImplementation2`.
-
----
-
-\* **Errata:** We are still using `master` in this convention for now, because the GitHub rulesets protect branches named `*/master`. We will swap to `main` once the branching rulesets are updated. (The framework, webpage, and devtools repos already name their default branch `main`.)
