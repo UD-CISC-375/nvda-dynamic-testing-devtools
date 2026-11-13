@@ -22,7 +22,7 @@ services:
     pull_policy: build                     # rebuild on every start, to pick up changes
     build:
       # WS unset: local copy in .clone/. WS empty: GitHub default branch. WS=<branch>: that branch.
-      context: ${WS+https://github.com/UD-CISC-375/nvda-dynamic-testing-webpage.git}${WS:+#}${WS-./.clone/nvda-dynamic-testing-webpage}
+      context: ${WS+https://github.com/UD-CISC-375/nvda-dynamic-testing-webpage.git}${WS:+#}${WS-../nvda-dynamic-testing-webpage}
     ports:
       - "${WEBPAGE_PORT:-8080}:80"         # optional: view the tested site
     healthcheck:                           # "ready" once the site answers
@@ -35,7 +35,7 @@ services:
     pull_policy: build
     build:
       # FW unset: local copy in .clone/. FW empty: GitHub default branch. FW=<branch>: that branch.
-      context: ${FW+https://github.com/UD-CISC-375/nvda-dynamic-testing-framework.git}${FW:+#}${FW-./.clone/nvda-dynamic-testing-framework}
+      context: ${FW+https://github.com/UD-CISC-375/nvda-dynamic-testing-framework.git}${FW:+#}${FW-../nvda-dynamic-testing-framework}
     environment:
       # The site to test. Without it, the framework tests the live GitHub Pages site.
       BASE_URL: ${BASE_URL:-http://webpage/nvda-dynamic-testing-webpage/}
