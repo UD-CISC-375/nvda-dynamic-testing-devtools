@@ -39,6 +39,11 @@ When the log says `Serving HTML report`, open:
 
 The Docker Compose guide covers the setup, choosing which branches get tested, and common problems.
 
+Once the tests have finished running and you are done checking the report, you can stop the process with:
+```
+docker compose stop
+```
+
 ## Class resources
 
 - [Class shared Google Drive](https://drive.google.com/drive/folders/1n-hi-56tc7gHOR0lVVZaEIHYB5KwKvo2?usp=sharing): team files, including the table with the agreed definition of a meaningful DOM change.
